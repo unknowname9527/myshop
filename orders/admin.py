@@ -37,8 +37,8 @@ class OrderItemInline(admin.TabularInline):
     raw_id_fields = ['product']
 
 def order_pdf(obj):
-    return '<a href="{}">PDF</a>'.format(
-        reverse('orders:admin_order_pdf', args=[obj.id]))
+    return '<a href="{}">PDF</a>'.format(reverse('orders:admin_order_pdf', args=[obj.id]))
+
 order_pdf.allow_tags = True
 order_pdf.short_description = 'PDF bill'
 

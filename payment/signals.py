@@ -17,8 +17,6 @@ def payment_notification(sender, **kwargs):
         order.paid = True
         order.save()
 
-        valid_ipn_received.connect(payment_notification)
-
         # create invoice e-mail
         subject = 'My Shop - Invoice no. {}'.format(order.id)
         message = 'Please, find attached the invoice for your recent purchase.'
@@ -39,4 +37,4 @@ def payment_notification(sender, **kwargs):
         # send e-mail
         email.send()
 
-
+valid_ipn_received.connect(payment_notification)

@@ -42,10 +42,13 @@ INSTALLED_APPS = (
     'orders',
     'paypal.standard.ipn',
     'payment',
+    'coupons',
+    'rosetta',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -96,9 +99,16 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'UTC'
+from django.utils.translation import gettext_lazy as _
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('es', _('Spanish')),
+)
+
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -117,12 +127,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CART_SESSION_ID = 'cart'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = '627832989@qq.com'
+EMAIL_HOST_PASSWORD = 'rvxkfrmwvkzubchf'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # django-paypal settings
-PAYPAL_RECEIVER_EMAIL = 'mypaypalemail@myshop.com'
+PAYPAL_RECEIVER_EMAIL = '627832989@qq.com'
 PAYPAL_TEST = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale/'),
+)
 
 
