@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sy(ejodfjcyqzwm!ab%+w(m!u#)6qg+b39xddso8a4g_oip+^m'
+SECRET_KEY = '97vqo*t)m)h_3pjjw4(=9m&kc*-_a*30icly_ifg$80jeg_cbz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,10 +40,12 @@ INSTALLED_APPS = (
     'shop',
     'cart',
     'orders',
-    'paypal.standard.ipn',
     'payment',
+    'paypal.standard.ipn',
     'coupons',
     'rosetta',
+    'parler',
+    'localflavor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,13 +87,8 @@ WSGI_APPLICATION = 'myshop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myshop',
-        'USER': 'jevons',
-        'PASSWORD': '123456',
-        'HOST': '47.90.101.101',
-        'PORT': '3306',
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -108,7 +105,11 @@ LANGUAGES = (
     ('es', _('Spanish')),
 )
 
-TIME_ZONE = 'Asia/Shanghai'
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale/'),
+)
+
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -121,28 +122,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CART_SESSION_ID = 'cart'
 
-EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
-
-EMAIL_HOST = 'smtp.qq.com'
-EMAIL_HOST_USER = '627832989@qq.com'
-EMAIL_HOST_PASSWORD = 'rvxkfrmwvkzubchf'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
 # django-paypal settings
-PAYPAL_RECEIVER_EMAIL = '627832989@qq.com'
+PAYPAL_RECEIVER_EMAIL = ''
 PAYPAL_TEST = True
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# django-parler settings
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'en',},
+        {'code': 'es',},
+    ),
+    'default': {
+        'fallback': 'en',
+        'hide_untranslated': False,
+    }
+}
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale/'),
-)
-
-
+# redis settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 1
